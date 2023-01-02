@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Titel</title>
+		<meta name="viewport" content="width=device-width, inital-scale=1.0"/>
+		<link rel="stylesheet" type="text/css">
+		<script src="script.js"></script>
+	</head>
+	
+	<body>
+		<div id="div1">
+			<ul>
+                <li>Wurst</li>
+                <li>Egal</li>
+                <li>Schinken</li>
+                <li>Gurke</li>
+            </ul>
+		</div>
+		<script type="text/javascript">
+            function* foo() {
+                yield* ['hello', 'world'];
+            }
+            var gen = foo();
+            
+            for(let i of foo()){
+                window.alert(i);
+            }
+            
+        </script>
+	</body>
+</html> 
