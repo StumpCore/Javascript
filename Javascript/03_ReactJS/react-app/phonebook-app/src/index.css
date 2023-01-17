@@ -1,0 +1,13 @@
+.error {
+    size: 25px;
+    color: red;
+    background-color:darksalmon;
+    padding: 1em 1em;
+}
+
+.add {
+    size: 25px;
+    color: green;
+    background-color: azure;
+    padding: 1em 1em;
+}
