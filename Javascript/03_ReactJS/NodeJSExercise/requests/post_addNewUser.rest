@@ -1,0 +1,25 @@
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Martin Meier",
+    "number": "123-4586-556"
+}
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "",
+    "number": "123-4586-556"
+}
+
+###
+POST http://localhost:3001/api/persons/
+Content-Type: application/json
+
+{
+    "name": "Mary Poppendieck",
+    "number": "123-4586-556"
+}
