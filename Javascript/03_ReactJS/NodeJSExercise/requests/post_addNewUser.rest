@@ -1,25 +1,6 @@
-POST http://localhost:3001/api/persons/
+PUT http://localhost:3001/api/persons
 Content-Type: application/json
-
-{
+{   "id": "63dc15654628b5ced9413bf6",
     "name": "Martin Meier",
-    "number": "123-4586-556"
-}
-
-###
-POST http://localhost:3001/api/persons/
-Content-Type: application/json
-
-{
-    "name": "",
-    "number": "123-4586-556"
-}
-
-###
-POST http://localhost:3001/api/persons/
-Content-Type: application/json
-
-{
-    "name": "Mary Poppendieck",
-    "number": "123-4586-556"
+    "number": "123-123-1122" 
 }

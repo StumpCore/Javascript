@@ -5,21 +5,21 @@ import serverService from './components/server'
 import Notification from './components/Error'
 
 const App = () =>{
-  const [contacts, setContacts] = useState([])
-  const[newContact, setNewContact] = useState('')
-  const[newNumber, setNewNumber] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [className, setClassName] = useState('')
+    const [contacts, setContacts] = useState([])
+    const[newContact, setNewContact] = useState('')
+    const[newNumber, setNewNumber] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+    const [className, setClassName] = useState('')
 
-  useEffect(()=>{
-    serverService 
-      .getAll()
-      .then(response=>{
-        setContacts(response.data)
-      })
-  },[])
+    useEffect(()=>{
+        serverService 
+          .getAll()
+          .then(response=>{
+            setContacts(response.data)
+          })
+      },[])
 
-  const addContact = (event) => {
+    const addContact = (event) => {
     event.preventDefault()
 
     const lastContact = contacts.at(-1).id
@@ -35,13 +35,19 @@ const App = () =>{
     if (alreadyContact.length === 0) {
       serverService
         .create(personObject)
+        .catch(error=>{
+            console.log(error.response.data.error)
+            setErrorMessage(`Contact ${personObject.name} could not be added, due to invalid number or name.`)
+            setClassName('error')
+            })
         .then(response =>{
           setContacts(contacts.concat(response.data))
           setNewContact('')
           setNewNumber('')
-        })
         setErrorMessage(`Added User ${personObject.name}`)
         setClassName('add')
+        })
+
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
@@ -50,7 +56,16 @@ const App = () =>{
       if (response !== null) {
         serverService
           .update(alreadyContact[0].id, personObject)
-          
+              .catch(error=>{
+                  console.log(error.response.data.error)
+                  setErrorMessage(`${personObject.name} got invalid number: ${personObject.number}. Please use following format: XXX-XXX-XXXX only.`)
+                  setClassName('error')
+              })
+
+          setTimeout(()=>{
+              setErrorMessage(null)
+          },5000)
+
         serverService 
           .getAll()
           .then(response=>{
