@@ -6,10 +6,6 @@ app.listen(config.PORT, () => {
 	logger.info(`Server running on port ${config.PORT}`)
 })
 
-
-
-
-
 const unkownEndpoint = (request, response) =>{
     response.status(404).send({
         error: 'unkown endpoint'

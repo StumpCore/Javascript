@@ -1,6 +1,9 @@
 const personsRouter = require('express').Router()
 const Person = require('../models/person')
 const bp = require('body-parser')
+const User = require('../models/user')
+const jwt = require ('jsonwebtoken')
+
 
 personsRouter.use(bp.json())
 personsRouter.use(bp.urlencoded({extended: true}))
@@ -17,10 +20,10 @@ personsRouter.get('/info', (request, response)=>{
 })
 
 //Fetch All data
-personsRouter.get('/', (request, response) =>{
-    console.log("person Request");
-    Person.find({}).then(person =>{
-        response.json(person)})
+personsRouter.get('/',async (request, response) =>{
+    console.log("person Request")
+    const Persons = await Person.find({})
+    response.json(Persons)
 })
 
 
@@ -42,22 +45,39 @@ personsRouter.delete('/:id', (request, response, next)=>{
         })
 })
 
+//Get Token from user
+const getTokenFrom = request =>{
+    const authorization = request.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')){
+        return authorization.replace('Bearer ', '')
+    }
+    return null
+}
 
 //Adding new Entry
-personsRouter.post('/', (request, response,next)=>{
+personsRouter.post('/', async (request, response,next)=>{
     const body = request.body
+    const decodeToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+    if(!decodeToken.id){
+        return response.status(401).json({error: 'token invalid'})
+    }
+    const user = await User.findById(decodeToken.userID)
 
     const newPerson = new Person({
         name: body.name,
         number: body.number,
+        user: user.id
     })
 
     newPerson
         .save()
-        .then(savedPerson =>{
-            response.json(savedPerson)
+        .then(async savedPerson =>{
+            user.persons = user.persons.concat(savedPerson._id)
+            await user.save()
+            response.status(201).json(savedPerson)
         })
         .catch(error => next(error))
+
 })
 
 //Changing existing values

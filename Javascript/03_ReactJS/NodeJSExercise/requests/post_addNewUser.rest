@@ -1,6 +1,8 @@
-PUT http://localhost:3001/api/persons
+POST http://localhost:3001/api/persons
 Content-Type: application/json
-{   "id": "63dc15654628b5ced9413bf6",
-    "name": "Martin Meier",
-    "number": "123-123-1122" 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
+{   "id": "63dc1565462113ced9413886",
+    "name": "Martin Meier der Viert",
+    "number": "123-123-1122",
+    "userID": "640754b536fad06d88af9792"
 }
